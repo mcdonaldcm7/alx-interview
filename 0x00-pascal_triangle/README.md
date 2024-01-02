@@ -8,7 +8,8 @@ returns a list of lists of integers representing the Pascal's tringle of n.
 Create a function *def pascal_triangle(n):* that returns a list of lists of
 integers representing the Pascal's triangle of *n*:
 - Return an empty list of n <= 0
-- You can assume n will be always an integer<br>
+- You can assume n will be always an integer
+---
 	guillaume@ubuntu:~/0x00$ cat 0-main.py
 	#!/usr/bin/python3
 	"""
