@@ -1,42 +1,44 @@
 #!/usr/bin/python3
 """
-Definition of 'canUnlockAll' which accepts a list of lists argument
-representing boxes an the number(s) in them, keys to boxes they unlock
+Solution to the Lockboxes problem:
+    You have n number of locked boxes in front of you. Each box is numbered
+    sequentially from 0 to n - 1 and each box may contain keys to the other
+    boxes.
 """
-
-
-def updateKeys(allKeys, boxes, box, checked, index):
-    """
-    Recursively loops through boxes and the boxes which key are contained  in
-    them to gather all possible keys
-    """
-
-    for key in box:
-        if len(checked) == 0:
-            checked.add(0)
-        if key not in allKeys:
-            allKeys.add(key)
-        if key >= len(boxes):
-            return
-        if key not in checked:
-            checked.add(index)
-            updateKeys(allKeys, boxes, boxes[key], checked, index=key)
 
 
 def canUnlockAll(boxes):
     """
-    Check the keys in all the boxes and checks whether or not they can be
-    opened
+    Determines if all box in boxes can be opened
 
     Return: True if all boxes can be opened, else return False
     """
-    if len(boxes) <= 1:
-        return True
-    keys = set()
-    checked = set()
-    updateKeys(keys, boxes, boxes[0], checked, 0)
-    keys.add(0)
+    boxesNotVisited = []
+    boxStates = {}
+    traversed = 0
+
     for i in range(len(boxes)):
-        if i not in keys:
-            return False
-    return True
+        boxesNotVisited.append(i)
+        if i == 0:
+            boxStates['0'] = True
+            continue
+        boxStates[str(i)] = False
+    # print('BoxesNotVisited are {}'.format(boxesNotVisited))
+    # print('BoxStates are {}'.format(boxStates))
+
+    while (len(boxesNotVisited) > 0 and traversed < (len(boxes) ** 2)):
+        for i in range(len(boxes)):
+            # print('Found box {}'.format(i))
+            if i in boxesNotVisited and boxStates[str(i)]:
+                for key in boxes[i]:
+                    # print('Unlocking box {}'.format(key))
+                    if key < len(boxes) and not boxStates[str(key)]:
+                        boxStates[str(key)] = True
+                # print('Boxstates: {}'.format(boxStates))
+                boxesNotVisited.remove(i)
+                # print('Uexplored boxes are {}'.format(boxesNotVisited))
+            if False not in boxStates.values():
+                return True
+            traversed += 1
+
+    return False not in boxStates.values()
