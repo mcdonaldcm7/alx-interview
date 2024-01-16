@@ -34,7 +34,7 @@ carrie@ubuntu:~/0x02-minoperations$ cat 0-main.py
 
 	carrie@ubuntu:~/0x02-minoperations$
 ---
-**Output**
+#### Output
 ---
 	carrie@ubuntu:~/0x02-minoperations$ ./0-main.py
 	Min number of operations to reach 4 characters: 4
