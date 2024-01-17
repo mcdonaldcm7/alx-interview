@@ -51,15 +51,14 @@ def minOperations(n: int) -> int:
     Returns fewest number of operations needed to result in exactly `n H`
     characters in the file
     """
-    fctrs = factors(n)
+    if type(n) != int:
+        return 0
+    if n <= 1:
+        return 0
+
     # text = 'H'
     # copied = 'H'
     # op_count = 1
-    op_count = 0
-    if n <= 1:
-        return 0
-    if len(fctrs) == 0:
-        return n
 
     # while len(text) < n:
     #    if len(text) in fctrs:
@@ -67,6 +66,12 @@ def minOperations(n: int) -> int:
     #        op_count += 1
     #    text += copied
     #    op_count += 1
+
+    fctrs = factors(n)
+    op_count = 0
+
+    if len(fctrs) == 0:
+        return n
 
     while n > 1:
         for fct in fctrs:
