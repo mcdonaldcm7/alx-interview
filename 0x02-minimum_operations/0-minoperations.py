@@ -30,11 +30,18 @@ def factors(n: int) -> List[int]:
     """
     Returns a list of the numbers that divide n
     """
-    result = []
-    for i in range(2, math.ceil(n / 2) + 1):
-        if (i != n) and (n % i) == 0:
-            result.append(i)
-    return result
+    factors = []
+    i = 2
+    # for i in range(2, math.ceil(n / 2) + 1):
+    #    if (i != n) and (n % i) == 0:
+    #        factors.append(i)
+    while i * i <= n:
+        if n % i == 0:
+            factors.append(i)
+            if n // i != i:
+                factors.append(n // i)
+        i += 1
+    return factors
 
 
 def minOperations(n: int) -> int:
