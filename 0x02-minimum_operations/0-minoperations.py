@@ -53,7 +53,7 @@ def minOperations(n: int) -> int:
     text = 'H'
     copied = 'H'
     op_count = 1
-    if n <= 1:
+    if type(n) != int or n <= 1:
         return 0
     if len(fctrs) == 0:
         return n
