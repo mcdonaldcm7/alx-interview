@@ -32,16 +32,13 @@ def factors(n: int) -> List[int]:
     """
     factor = []
     i = 2
-    # for i in range(2, math.ceil(n / 2) + 1):
-    #    if (i != n) and (n % i) == 0:
-    #        factor.append(i)
     while i * i <= n:
         if n % i == 0:
-            # if len(factors(i)) == 0:
-            factor.append(i)
-            if n // i != i:
-                # if len(factors(n // i)) == 0:
-                factor.append(n // i)
+            if len(factors(i)) == 0:
+                factor.append(i)
+                if n // i != i:
+                    if len(factors(n // i)) == 0:
+                        factor.append(n // i)
         i += 1
     return factor
 
@@ -56,29 +53,30 @@ def minOperations(n: int) -> int:
     if n <= 1:
         return 0
 
-    text = 'H'
-    copied = 'H'
-    op_count = 1
-    fctrs = factors(n)
-
-    if len(fctrs) == 0:
-        return n
-    while len(text) < n:
-        if len(text) in fctrs:
-            copied = text
-            op_count += 1
-        text += copied
-        op_count += 1
-
+    # text = 'H'
+    # copied = 'H'
+    # op_count = 1
     # fctrs = factors(n)
-    # op_count = 0
 
     # if len(fctrs) == 0:
     #    return n
 
-    # while n > 1:
-    #    for fct in fctrs:
-    #        if n % fct == 0:
-    #            n /= fct
-    #            op_count += fct
+    # while len(text) < n:
+    #    if len(text) in fctrs:
+    #        copied = text
+    #        op_count += 1
+    #    text += copied
+    #    op_count += 1
+
+    fctrs = factors(n)
+    op_count = 0
+
+    if len(fctrs) == 0:
+        return n
+
+    while n > 1:
+        for fct in fctrs:
+            if n % fct == 0:
+                n /= fct
+                op_count += fct
     return op_count
