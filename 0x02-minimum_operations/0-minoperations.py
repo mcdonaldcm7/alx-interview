@@ -32,12 +32,16 @@ def factors(n: int) -> List[int]:
     """
     factor = []
     i = 2
+
+    # i * i <= n reduces number of iterations required
     while i * i <= n:
+        if i in factor:
+            i += 1
+            continue
         if n % i == 0:
-            if len(factors(i)) == 0:
                 factor.append(i)
+
                 if n // i != i:
-                    if len(factors(n // i)) == 0:
                         factor.append(n // i)
         i += 1
     return factor
@@ -53,22 +57,13 @@ def minOperations(n: int) -> int:
     if n <= 1:
         return 0
 
-    # text = 'H'
-    # copied = 'H'
-    # op_count = 1
-    # fctrs = factors(n)
-
-    # if len(fctrs) == 0:
-    #    return n
-
-    # while len(text) < n:
-    #    if len(text) in fctrs:
-    #        copied = text
-    #        op_count += 1
-    #    text += copied
-    #    op_count += 1
-
     fctrs = factors(n)
+    for fct_1 in fctrs:
+        for fct_2 in fctrs:
+            if fct_1 == fct_2:
+                continue
+            if (fct_2 % fct_1) == 0:
+                fctrs.remove(fct_2)
     op_count = 0
 
     if len(fctrs) == 0:
