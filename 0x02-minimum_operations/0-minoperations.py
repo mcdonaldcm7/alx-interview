@@ -39,10 +39,10 @@ def factors(n: int) -> List[int]:
             i += 1
             continue
         if n % i == 0:
-                factor.append(i)
+            factor.append(i)
 
-                if n // i != i:
-                        factor.append(n // i)
+            if n // i != i:
+                factor.append(n // i)
         i += 1
     return factor
 
@@ -58,12 +58,17 @@ def minOperations(n: int) -> int:
         return 0
 
     fctrs = factors(n)
+    non_prime = []
+    # Filter factors to ensure only primes are left
     for fct_1 in fctrs:
         for fct_2 in fctrs:
             if fct_1 == fct_2:
                 continue
             if (fct_2 % fct_1) == 0:
-                fctrs.remove(fct_2)
+                non_prime.append(fct_2)
+    for non_pr in non_prime:
+        if non_pr in fctrs:
+            fctrs.remove(non_pr)
     op_count = 0
 
     if len(fctrs) == 0:
