@@ -10,6 +10,82 @@ Given an n x n 2D matrix, rotate it 90 degrees clockwise.
 """
 
 
+def clockwise_coord(coord, max_n, min_n):
+    """
+    Provides clockwise rotated coordinates
+    """
+    row = coord[0]
+    col = coord[1]
+
+    for i in range(max_n - 1):
+        if row < col:
+            # Top/Top-Right Position
+            if (col + 1) >= max_n:
+                row += 1
+            else:
+                col += 1
+        elif row > col:
+            # Bottom/Bottom-Left position
+            if (col - 1) < min_n:
+                row -= 1
+            else:
+                col -= 1
+        elif row == col:
+            # Square edge
+            if row == min_n:
+                # Clockwise direction: --->
+                col += 1
+            else:
+                # Clockwise direction: <---
+                col -= 1
+    return (row, col)
+
+
+def anticlockwise_coord(coord, max_n, min_n):
+    """
+    Provides anticlockwise rotated coordinates
+    """
+    row = coord[0]
+    col = coord[1]
+
+    for i in range(max_n - 1):
+        if row < col:
+            # Top Position
+            if (col + 1) >= max_n:
+                if (row - 1) < min_n:
+                    col -= 1
+                else:
+                    row -= 1
+            else:
+                if (col - 1) >= row:
+                    col -= 1
+                else:
+                    row += 1
+        elif row > col:
+            # Bottom position
+            if col == min_n:
+                if (row + 1) >= max_n:
+                    col += 1
+                else:
+                    row += 1
+            else:
+                if (row + 1) >= max_n:
+                    col += 1
+                else:
+                    row += 1
+        elif row == col:
+            # Square edge
+            if row == min_n:
+                # Anticlockwise direction: Downward |
+                #                                   v
+                row += 1
+            else:
+                # Anticlockwise direction: Upward   ^
+                #                                   |
+                row -= 1
+    return (row, col)
+
+
 def rotate_2d_matrix(matrix):
     """
     Rotates a 2d matrix
@@ -19,37 +95,22 @@ def rotate_2d_matrix(matrix):
     i_row = 0
 
     for square in range(n//2):
-        for elt in range(n):
+        for elt in range(n - 1):
             c_row = i_row
             c_col = i_col
-            temp = False
+            c_val = matrix[c_row][c_col]
+            temp = 0
             for edge in range(4):
-                n_row = 0
-                n_col = 0
-                if edge == 0:
-                    n_row = i_row
-                    n_col = i_row
-                elif edge == 1:
-                    n_row = i_col
-                    n_col = i_row
-                elif edge == 2:
-                    n_row = i_col
-                    n_col = i_col
-                elif edge == 3:
-                    n_row = i_row
-                    n_col = i_col
+                max_n = n - (square * 2)
+                coord = clockwise_coord((c_row, c_col), max_n, square)
+
+                n_row = coord[0]
+                n_col = coord[1]
 
                 temp = matrix[n_row][n_col]
-                matrix[n_row][n_col] = matrix[c_row][c_col]
-
-                # print("Matrix after change on edge {} is:\n{}".format(
-                #    edge, matrix))
-                # print(
-                # "temp: {}\nn_row: {}\nn_col: {}\nc_col: {}\nc_row: {}".format
-                # (temp, n_row, n_col, c_col, c_row))
+                matrix[n_row][n_col] = c_val
+                c_val = temp
 
                 c_row = n_row
                 c_col = n_col
             i_col -= 1
-        i_col -= 1
-        i_row += 1
