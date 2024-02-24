@@ -10,26 +10,32 @@ Given an n x n 2D matrix, rotate it 90 degrees clockwise.
 """
 
 
-def clockwise_coord(coord, max_n, min_n):
+def clockwise_coord(coord, max_n, min_n, n):
     """
     Provides clockwise rotated coordinates
     """
     row = coord[0]
     col = coord[1]
 
-    for i in range(max_n - 1):
+    for i in range(n - 1):
         if row < col:
             # Top/Top-Right Position
-            if (col + 1) >= max_n:
-                row += 1
+            if row == min_n:
+                if (col + 1) >= max_n:
+                    row += 1
+                else:
+                    col += 1
             else:
-                col += 1
+                row += 1
         elif row > col:
             # Bottom/Bottom-Left position
-            if (col - 1) < min_n:
+            if col == min_n:
                 row -= 1
             else:
-                col -= 1
+                if (col - 1) < min_n:
+                    row -= 1
+                else:
+                    col -= 1
         elif row == col:
             # Square edge
             if row == min_n:
@@ -95,15 +101,19 @@ def rotate_2d_matrix(matrix):
     i_row = 0
 
     for square in range(n//2):
-        for elt in range(n - 1):
+        iter_col = i_col
+        for elt in range(n - 1 - square * 2):
             c_row = i_row
-            c_col = i_col
+            c_col = iter_col
             c_val = matrix[c_row][c_col]
             temp = 0
             for edge in range(4):
-                max_n = n - (square * 2)
-                coord = clockwise_coord((c_row, c_col), max_n, square)
+                n_iter = n - (square * 2)
 
+                # Replace clockwise_coord with anticlockwise_coor in the line
+                # below to rotate in the anticlockwise direction
+                coord = clockwise_coord((c_row, c_col), n - square, square,
+                                        n_iter)
                 n_row = coord[0]
                 n_col = coord[1]
 
@@ -113,4 +123,6 @@ def rotate_2d_matrix(matrix):
 
                 c_row = n_row
                 c_col = n_col
-            i_col -= 1
+            iter_col -= 1
+        i_col -= 1
+        i_row += 1
