@@ -58,5 +58,5 @@ def makeChange(coins, total):
             cut += tmp_total // coin
             if tmp_total % coin == 0:
                 return cut
-            tmp_total -= coin * (total // coin)
+            tmp_total -= coin * (tmp_total // coin)
     return -1
