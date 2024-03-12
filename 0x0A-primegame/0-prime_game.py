@@ -51,7 +51,6 @@ Result: Ben has the most wins
     Winner: Ben
     carrie@ubuntu:~/0x0A-primegame$
 """
-import math
 
 
 def isPrime(n):
@@ -60,9 +59,11 @@ def isPrime(n):
     """
     if (n <= 1):
         return False
-    for i in range(2, (int(math.sqrt(n)) + 1)):
+    i = 1
+    while (i * i) <= n:
         if (n % i) == 0:
             return False
+        i += 1
     return True
 
 
