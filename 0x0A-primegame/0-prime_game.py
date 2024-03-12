@@ -84,7 +84,7 @@ def isWinner(x, nums):
     """
     ben_wins = maria_wins = 0
 
-    if x == 0:
+    if x <= 0:
         return None
 
     for i in range(x):
