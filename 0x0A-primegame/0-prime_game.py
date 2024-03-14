@@ -20,19 +20,6 @@ def isPrime(n):
     return True
 
 
-def primeCountInRange(n):
-    """
-    Computes the number of prime numbers in the given range n
-
-    Return: Number of prime number's between 1 and n
-    """
-    primeCount = 0
-    for i in range(2, n + 1):
-        if isPrime(i):
-            primeCount += 1
-    return primeCount
-
-
 def isWinner(x, nums):
     """
     Checks and the returns the winner of the most rounds in a Prime Game
@@ -40,12 +27,20 @@ def isWinner(x, nums):
     Return: name of the player that won the most rounds
     """
     ben_wins = maria_wins = 0
-
-    if x <= 0 or nums is None or len(nums) == 0:
+    if x <= 0:
         return None
 
     for i in range(x):
-        if primeCountInRange(nums[i]) % 2 == 0:
+        # Sieve of Eratosthenes
+        primeNumber = [True for i in range(nums[i] + 1)]
+        p = 2
+
+        while (p * p <= nums[i]):
+            if (isPrime(p)):
+                for num in range(p * p, nums[i] + 1, p):
+                    primeNumber[num] = False
+            p += 1
+        if sum(primeNumber) % 2 == 0:
             ben_wins += 1
         else:
             maria_wins += 1
